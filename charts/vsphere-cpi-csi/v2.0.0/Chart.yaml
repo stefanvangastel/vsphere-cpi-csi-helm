@@ -14,4 +14,6 @@ icon: file://../vsphere_7.png
 maintainers:
   - name: Stefan van Gastel
     email: stefanvangastel@gmail.com
+  - name: Tom Houweling
+    email: thouweling@gmail.com
 engine: gotpl
