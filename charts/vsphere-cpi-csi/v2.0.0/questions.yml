@@ -108,6 +108,12 @@ questions:
         type: string
         required: true
         group: "storageClass"
+      - variable: storageclass.storagepolicyname
+        label: Storage Policy Name
+        default: ""
+        type: string
+        required: false
+        group: "storageClass"
       - variable: storageclass.datastoreurl
         label: Datastore URL (optional)
         description: "E.g. ds:///vmfs/volumes/vsan:528c27f173c2088e-2126e911985dc3aa/"
