@@ -11,4 +11,7 @@ parameters:
  {{- if .Values.storageclass.datastoreurl  }}
  DatastoreURL: {{ .Values.storageclass.datastoreurl | quote }}
  {{- end }}
+ {{- if .Values.storageclass.storagepolicyname }}
+ storagepolicyname: {{ .Values.storageclass.storagepolicyname | quote }}
+ {{- end }}
 {{- end }}
