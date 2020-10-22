@@ -28,17 +28,17 @@ More info on the motivation behind creating this integrated chart can be found i
 ## Installing the Chart using Helm 3.0+
 
 1. Clone this repository: 
-```bash
-$ git clone https://github.com/stefanvangastel/vsphere-cpi-csi-helm.git
-```
-1. Enter thee directory: 
-```bash
-$ cd vpshere-cpi-csi-helm
-```
+   ```bash
+   $ git clone https://github.com/stefanvangastel/vsphere-cpi-csi-helm.git
+   ```
+1. Enter the directory: 
+   ```bash
+   $ cd vpshere-cpi-csi-helm
+   ```
 1. Install the chart of choice (CSI v1.0.2 of v2.0.0): 
-```bash
-$ helm install vsphere-cpi-csi ./charts/vsphere-cpi-csi/v2.0.0 --namespace kube-system
-```
+   ```bash
+   $ helm install vsphere-cpi-csi ./charts/vsphere-cpi-csi/v2.0.0 --namespace kube-system
+   ```
 
 ## Uninstalling the Chart
 
