@@ -35,9 +35,15 @@ More info on the motivation behind creating this integrated chart can be found i
    ```bash
    $ cd vpshere-cpi-csi-helm
    ```
-1. Install the chart of choice (CSI v1.0.2 of v2.0.0): 
+1. Install the chart of choice (CSI v1.0.2 of v2.0.0), the vcenter config options are required at minimum: 
    ```bash
-   $ helm install vsphere-cpi-csi ./charts/vsphere-cpi-csi/v2.0.0 --namespace kube-system
+   $ helm install vsphere-cpi-csi \
+        --namespace kube-system \
+        ./charts/vsphere-cpi-csi/v2.0.0 \
+        --set vcenter.host=vsphere.example.com \
+        --set vcenter.username=johndoe \
+        --set vcenter.password=s3cret \
+        --set vcenter.datacenter=dc1
    ```
 
 ## Uninstalling the Chart
@@ -45,7 +51,7 @@ More info on the motivation behind creating this integrated chart can be found i
 To uninstall/delete the `vsphere-cpi-csi` deployment:
 
 ```bash
-$ helm delete vsphere-cpi-csi
+$ helm delete vsphere-cpi-csi --namespace kube-system 
 ```
 
 The command removes all the Kubernetes components associated with the chart and deletes the release.
@@ -83,6 +89,7 @@ Specify each parameter using the `--set key=value[,key=value]` argument to `helm
 
 ```bash
 $ helm install vsphere-cpi-csi \
+    --namespace kube-system \
     ./charts/vsphere-cpi-csi/v2.0.0 \
     --set vcenter.host=vsphere.example.com \
     --set vcenter.username=johndoe \
