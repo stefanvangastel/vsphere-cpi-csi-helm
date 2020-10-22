@@ -45,7 +45,7 @@ $ helm install vsphere-cpi-csi ./charts/vsphere-cpi-csi/v2.0.0 --namespace kube-
 To uninstall/delete the `vsphere-cpi-csi` deployment:
 
 ```bash
-$ helm delete vsphere-cpi-csi --namespace kube-system
+$ helm delete vsphere-cpi-csi
 ```
 
 The command removes all the Kubernetes components associated with the chart and deletes the release.
