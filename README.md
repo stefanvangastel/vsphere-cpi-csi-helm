@@ -1,4 +1,4 @@
-# vSphere cpi+csi helm chart
+# vSphere CPI+CSI Helm chart
 
 Integrated CPI + CSI helm chart, focused on Rancher Catalog deployment, minimal config, maximum speed. Many thanks to the [vSphere CPI helm chart](https://github.com/helm/charts/tree/master/stable/vsphere-cpi) on which this chart is based. 
 
@@ -10,18 +10,20 @@ This chart deploys all components required to run the external vSphere CPI and a
 
 Deployment using [Rancher's catalog apps](https://rancher.com/docs/rancher/v2.x/en/helm-charts/legacy-catalogs/) feature was the original focus of this project. This means it's also Helm compatible. 
 
+More info on the motivation behind creating this integrated chart can be found in this article: https://medium.com/@stefanvangastel/moving-to-out-of-tree-kubernetes-vsphere-cpi-csi-in-seconds-fc0c494bb114
+
 ## Prerequisites
 
-- Has been tested on Kubernetes 1.15.x+
-- Has been tested on Rancher 2.3.x+
-- Assumes your Kubernetes cluster has been configured to use the external cloud provider. 
-  - Helm: Please take a look at configuration guidelines located in the [Kubernetes documentation](https://kubernetes.io/docs/tasks/administer-cluster/running-cloud-controller/#running-cloud-controller-manager).
-  - Rancher: check out [this file](charts/vsphere-cpi-csi/v2.0.0/README.md)
+- vSphere 6.7U3+ (CSI v1.0.2) or vSphere 7.0+ (CSI v2.0.0)
+- Kubernetes cluster version 1.14+ (CSI v1.0.2) or 1.16+ (CSI v2.0.0)
+- VM's with harware version 15+ and vmtools installed on all nodes
+- The ubuntu guest OS is recommended
+- Manual steps are described in [this description](charts/vsphere-cpi-csi/v2.0.0/README.md) (Rancher) of in the [Kubernetes documentation](https://kubernetes.io/docs/tasks/administer-cluster/running-cloud-controller/#running-cloud-controller-manager) (Helm)
 
 ## Installing the Chart using Rancher catalog
 
 1. Add this repo (https://github.com/stefanvangastel/vsphere-cpi-csi-helm.git) as a Helm 3 catalog.
-1. Launch the app and follow instructions
+1. Launch the app and follow the instructions
 
 ## Installing the Chart using Helm 3.0+
 
@@ -33,11 +35,10 @@ $ git clone https://github.com/stefanvangastel/vsphere-cpi-csi-helm.git
 ```bash
 $ cd vpshere-cpi-csi-helm
 ```
-1. Install the chart of choice (v1.0.2 of v2.0.0): 
+1. Install the chart of choice (CSI v1.0.2 of v2.0.0): 
 ```bash
 $ helm install vsphere-cpi-csi ./charts/vsphere-cpi-csi/v2.0.0 --namespace kube-system
 ```
-
 
 ## Uninstalling the Chart
 
@@ -51,7 +52,9 @@ The command removes all the Kubernetes components associated with the chart and 
 
 ## Configuration
 
-The following table lists the configurable parameters of the vSphere CPI chart and their default values.
+The following table lists the configurable parameters of the vSphere CPI+CSIchart and their default values.
+
+> **Warning**: In creating this chart we aimed to make it as simple and fast to deploy as possible. Therefore you will not find an excess of options and configuration values.
 
 |             Parameter                    |            Description              |                  Default               |
 |------------------------------------------|-------------------------------------|----------------------------------------|
