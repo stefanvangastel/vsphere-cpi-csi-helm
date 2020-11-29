@@ -1,9 +1,9 @@
 images:
   vsphereCloudControllerManager: "gcr.io/cloud-provider-vsphere/cpi/release/manager:v1.1.0"
   csiAttacher: "quay.io/k8scsi/csi-attacher:v1.1.1"
-  csiDriver: "gcr.io/cloud-provider-vsphere/csi/release/driver:v1.0.1"
+  csiDriver: "gcr.io/cloud-provider-vsphere/csi/release/driver:v1.0.2"
   livenessProbe: "quay.io/k8scsi/livenessprobe:v1.1.0"
-  vsphereSyncer: "gcr.io/cloud-provider-vsphere/csi/release/syncer:v1.0.1"
+  vsphereSyncer: "gcr.io/cloud-provider-vsphere/csi/release/syncer:v1.0.2"
   csiProvisioner: "quay.io/k8scsi/csi-provisioner:v1.2.2"
   nodeDriverRegistrar: "quay.io/k8scsi/csi-node-driver-registrar:v1.1.0"
 
