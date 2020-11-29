@@ -20,7 +20,7 @@ questions:
         type: string
         label: csi-attacher
       - variable: images.csiDriver
-        default: "gcr.io/cloud-provider-vsphere/csi/release/driver:v1.0.1"
+        default: "gcr.io/cloud-provider-vsphere/csi/release/driver:v1.0.2"
         type: string
         label: vsphere-csi-controller
       - variable: images.livenessProbe
@@ -28,7 +28,7 @@ questions:
         type: string
         label: liveness-probe
       - variable: images.vsphereSyncer
-        default: "gcr.io/cloud-provider-vsphere/csi/release/syncer:v1.0.1"
+        default: "gcr.io/cloud-provider-vsphere/csi/release/syncer:v1.0.2"
         type: string
         label: vsphere-syncer
       - variable: images.csiProvisioner
