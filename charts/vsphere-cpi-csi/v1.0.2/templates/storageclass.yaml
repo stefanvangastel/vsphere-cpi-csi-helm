@@ -1,4 +1,4 @@
-{{- if .Values.storageClass  }}
+{{- if .Values.storageclass  }}
 apiVersion: storage.k8s.io/v1
 kind: StorageClass
 metadata:
