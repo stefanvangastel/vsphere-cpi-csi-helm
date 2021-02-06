@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: cloud-config
+  namespace: kube-system
+data:
+  cpi-vsphere.conf: |-
+    [Global]
+    insecure-flag = {{ .Values.vcenter.insecurehost | quote }}
+    port = {{ .Values.vcenter.port | quote }}
+    secret-name = "cpi-global-secret"
+    secret-namespace = "kube-system"
+
+    [VirtualCenter {{ .Values.vcenter.host | quote }}]
+    datacenters = {{ .Values.vcenter.datacenter | quote }}

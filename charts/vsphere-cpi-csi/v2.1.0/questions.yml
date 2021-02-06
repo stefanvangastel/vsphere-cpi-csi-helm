@@ -1,0 +1,123 @@
+labels:
+  io.cattle.role: cluster # options are cluster/project
+namespace: kube-system
+categories:
+  - storage
+questions:
+  - variable: defaultImage
+    default: true
+    label: Use default container images
+    type: boolean
+    show_subquestion_if: false
+    group: "Container Images"
+    subquestions:
+      - variable: images.vsphereCloudControllerManager
+        default: "gcr.io/cloud-provider-vsphere/cpi/release/manager:v1.1.0"
+        type: string
+        label: vsphere-cloud-controller-manager
+      - variable: images.csiAttacher
+        default: "quay.io/k8scsi/csi-attacher:v2.0.0"
+        type: string
+        label: csi-attacher
+      - variable: images.csiDriver
+        default: "gcr.io/cloud-provider-vsphere/csi/release/driver:v2.0.0"
+        type: string
+        label: vsphere-csi-controller
+      - variable: images.livenessProbe
+        default: "quay.io/k8scsi/livenessprobe:v1.1.0"
+        type: string
+        label: liveness-probe
+      - variable: images.vsphereSyncer
+        default: "gcr.io/cloud-provider-vsphere/csi/release/syncer:v2.0.0"
+        type: string
+        label: vsphere-syncer
+      - variable: images.csiProvisioner
+        default: "quay.io/k8scsi/csi-provisioner:v1.4.0"
+        type: string
+        label: csi-provisioner
+      - variable: images.csiResizer
+        default: "quay.io/k8scsi/csi-resizer:v0.3.0"
+        type: string
+        label: csi-resizer
+      - variable: images.nodeDriverRegistrar
+        default: "quay.io/k8scsi/csi-node-driver-registrar:v1.2.0"
+        type: string
+        label: node-driver-registrar
+  - variable: vcenter.host
+    label: vCenter or ESXi Server
+    description: "e.g. vcenter.example.com"
+    default: ""
+    type: string
+    required: true
+    group: "vCenter"
+  - variable: vcenter.port
+    label: vCenter or ESXi Server port
+    default: "443"
+    type: int
+    required: true
+    group: "vCenter"
+  - variable: vcenter.insecurehost
+    label: Insecure host?
+    description: "Set to true if using self-signed cert for vCenter or ESXi Server"
+    default: "true"
+    type: boolean
+    required: true
+    group: "vCenter"
+  - variable: vcenter.username
+    label: vCenter username
+    default: ""
+    type: string
+    required: true
+    group: "vCenter"
+  - variable: vcenter.password
+    label: vCenter password
+    default: ""
+    type: password
+    required: true
+    group: "vCenter"
+  - variable: vcenter.datacenter
+    label: Data Center
+    description: "E.g. DC1"
+    default: ""
+    type: string
+    required: true
+    group: "vCenter"
+  - variable: storageClass
+    default: true
+    label: Create matching storageClass
+    type: boolean
+    show_subquestion_if: true
+    group: "storageClass"
+    subquestions:
+      - variable: storageclass.name
+        label: storageClass name
+        default: "vsphere-csi"
+        type: string
+        required: true
+        group: "storageClass"
+      - variable: storageclass.default
+        label: Make default storageClass?
+        default: "true"
+        type: boolean
+        required: true
+        group: "storageClass"
+      - variable: storageclass.fstype
+        label: Filesystem type
+        description: "Use 'nfs4' to use the File Volume type"
+        default: "ext4"
+        type: string
+        required: true
+        group: "storageClass"
+      - variable: storageclass.storagepolicyname
+        label: Storage Policy Name
+        default: ""
+        type: string
+        required: false
+        group: "storageClass"
+      - variable: storageclass.datastoreurl
+        label: Datastore URL (optional)
+        description: "E.g. ds:///vmfs/volumes/vsan:528c27f173c2088e-2126e911985dc3aa/"
+        default: ""
+        type: string
+        required: false
+        group: "storageClass"
