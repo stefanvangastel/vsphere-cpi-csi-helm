@@ -1,5 +1,3 @@
-# Minimum Kubernetes version - 1.16
-# For prior releases make sure to add required --feature-gates flags
 kind: Deployment
 apiVersion: apps/v1
 metadata:
@@ -7,11 +5,6 @@ metadata:
   namespace: kube-system
 spec:
   replicas: 1
-  strategy:
-    type: RollingUpdate
-    rollingUpdate:
-      maxUnavailable: 1
-      maxSurge: 0
   selector:
     matchLabels:
       app: vsphere-csi-controller
@@ -23,13 +16,11 @@ spec:
     spec:
       serviceAccountName: vsphere-csi-controller
       nodeSelector:
-        node-role.kubernetes.io/controlplane: "true"
+        node-role.kubernetes.io/master: ""
       tolerations:
-        - key: node-role.kubernetes.io/controlplane
-          value: "true"
+        - operator: "Exists"
           effect: NoSchedule
-        - key: node-role.kubernetes.io/etcd
-          value: "true"
+        - operator: "Exists"
           effect: NoExecute
       dnsPolicy: "Default"
       containers:
@@ -50,7 +41,7 @@ spec:
           image: {{ .Values.images.csiResizer }}
           args:
             - "--v=4"
-            - "--csiTimeout=300s"
+            - "--timeout=300s"
             - "--csi-address=$(ADDRESS)"
             - "--leader-election"
           env:
@@ -61,25 +52,32 @@ spec:
               name: socket-dir
         - name: vsphere-csi-controller
           image: {{ .Values.images.csiDriver }}
-          lifecycle:
-            preStop:
-              exec:
-                command: ["/bin/sh", "-c", "rm -rf /var/lib/csi/sockets/pluginproxy/csi.vsphere.vmware.com"]
+          args:
+            - "--fss-name=internal-feature-states.csi.vsphere.vmware.com"
+            - "--fss-namespace=$(CSI_NAMESPACE)"
           imagePullPolicy: "Always"
           env:
             - name: CSI_ENDPOINT
-              value: unix:///var/lib/csi/sockets/pluginproxy/csi.sock
+              value: unix:///csi/csi.sock
             - name: X_CSI_MODE
               value: "controller"
             - name: VSPHERE_CSI_CONFIG
               value: "/etc/cloud/csi-vsphere.conf"
             - name: LOGGER_LEVEL
               value: "PRODUCTION" # Options: DEVELOPMENT, PRODUCTION
+            - name: INCLUSTER_CLIENT_QPS
+              value: "100"
+            - name: INCLUSTER_CLIENT_BURST
+              value: "100"
+            - name: CSI_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
           volumeMounts:
             - mountPath: /etc/cloud
               name: vsphere-config-volume
               readOnly: true
-            - mountPath: /var/lib/csi/sockets/pluginproxy/
+            - mountPath: /csi
               name: socket-dir
           ports:
             - name: healthz
@@ -96,17 +94,17 @@ spec:
         - name: liveness-probe
           image: {{ .Values.images.livenessProbe }}
           args:
-            - "--csi-address=$(ADDRESS)"
-          env:
-            - name: ADDRESS
-              value: /var/lib/csi/sockets/pluginproxy/csi.sock
+            - "--v=4"
+            - "--csi-address=/csi/csi.sock"
           volumeMounts:
-            - mountPath: /var/lib/csi/sockets/pluginproxy/
-              name: socket-dir
+            - name: socket-dir
+              mountPath: /csi
         - name: vsphere-syncer
           image: {{ .Values.images.vsphereSyncer }}
           args:
             - "--leader-election"
+            - "--fss-name=internal-feature-states.csi.vsphere.vmware.com"
+            - "--fss-namespace=$(CSI_NAMESPACE)"
           imagePullPolicy: "Always"
           env:
             - name: FULL_SYNC_INTERVAL_MINUTES
@@ -115,6 +113,14 @@ spec:
               value: "/etc/cloud/csi-vsphere.conf"
             - name: LOGGER_LEVEL
               value: "PRODUCTION" # Options: DEVELOPMENT, PRODUCTION
+            - name: INCLUSTER_CLIENT_QPS
+              value: "100"
+            - name: INCLUSTER_CLIENT_BURST
+              value: "100"
+            - name: CSI_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
           volumeMounts:
             - mountPath: /etc/cloud
               name: vsphere-config-volume
@@ -125,10 +131,11 @@ spec:
             - "--v=4"
             - "--timeout=300s"
             - "--csi-address=$(ADDRESS)"
-            - "--feature-gates=Topology=true"
-            - "--strict-topology"
-            - "--enable-leader-election"
-            - "--leader-election-type=leases"
+            - "--leader-election"
+            - "--default-fstype=ext4"
+            # needed only for topology aware setup
+            #- "--feature-gates=Topology=true"
+            #- "--strict-topology"
           env:
             - name: ADDRESS
               value: /csi/csi.sock
@@ -140,14 +147,21 @@ spec:
         secret:
           secretName: vsphere-config-secret
       - name: socket-dir
-        hostPath:
-          path: /var/lib/csi/sockets/pluginproxy/csi.vsphere.vmware.com
-          type: DirectoryOrCreate
+        emptyDir: {}
 ---
-apiVersion: storage.k8s.io/v1beta1
+apiVersion: v1
+data:
+  "csi-migration": "false" # csi-migration feature is only available for vSphere 7.0U1
+kind: ConfigMap
+metadata:
+  name: internal-feature-states.csi.vsphere.vmware.com
+  namespace: kube-system
+---
+apiVersion: storage.k8s.io/v1 # For k8s 1.17 or lower use storage.k8s.io/v1beta1
 kind: CSIDriver
 metadata:
   name: csi.vsphere.vmware.com
 spec:
   attachRequired: true
   podInfoOnMount: false
+---
