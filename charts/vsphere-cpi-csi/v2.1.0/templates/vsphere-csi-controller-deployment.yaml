@@ -16,12 +16,12 @@ spec:
     spec:
       serviceAccountName: vsphere-csi-controller
       nodeSelector:
-        node-role.kubernetes.io/master: ""
+        node-role.kubernetes.io/controlplane: "true"
       tolerations:
-        - operator: "Exists"
-          effect: NoSchedule
-        - operator: "Exists"
-          effect: NoExecute
+        - key: node-role.kubernetes.io/controlplane
+          value: "true"
+        - key: node-role.kubernetes.io/etcd
+          value: "true"
       dnsPolicy: "Default"
       containers:
         - name: csi-attacher
