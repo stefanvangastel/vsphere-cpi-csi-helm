@@ -46,6 +46,7 @@ spec:
           volumeMounts:
             - mountPath: /csi
               name: socket-dir
+        {{ if .Values.deployCSIResizer -}}
         - name: csi-resizer
           image: {{ .Values.images.csiResizer }}
           args:
@@ -59,6 +60,7 @@ spec:
           volumeMounts:
             - mountPath: /csi
               name: socket-dir
+        {{ end -}}
         - name: vsphere-csi-controller
           image: {{ .Values.images.csiDriver }}
           lifecycle:
