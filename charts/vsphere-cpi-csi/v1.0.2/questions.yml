@@ -116,3 +116,9 @@ questions:
         type: string
         required: false
         group: "storageClass"
+      - variable: storageclass.reclaimpolicy
+        label: storageClass reclaim policy
+        default: "Delete"
+        type: string
+        required: false
+        group: "storageClass"

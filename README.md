@@ -82,6 +82,7 @@ The following table lists the configurable parameters of the vSphere CPI+CSIchar
 | `storageclass.fstype`                    | Filesystem type to use e.g. `ext4` or `file` (v2.0.0 only) | ext4 |
 | `storageclass.storagepolicyname`         | Storagepolicy name to use if given | my-storage-policy |
 | `storageclass.datastoreurl`              | Optional datastore url     | |
+| `storageclass.reclaimpolicy`             | Optional reclaim policy    | Delete |
 
 > **Tip**: In addition all settings used in the [vSphere CPI helm chart](https://github.com/helm/charts/tree/master/stable/vsphere-cpi) are also useable in this chart.
 

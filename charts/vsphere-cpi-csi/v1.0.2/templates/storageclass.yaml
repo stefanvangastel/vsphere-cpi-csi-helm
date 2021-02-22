@@ -14,4 +14,7 @@ parameters:
  {{- if .Values.storageclass.storagepolicyname }}
  storagepolicyname: {{ .Values.storageclass.storagepolicyname | quote }}
  {{- end }}
+{{- if .Values.storageclass.reclaimpolicy }}
+reclaimPolicy: {{ .Values.storageclass.reclaimpolicy }}
+{{- end }}
 {{- end }}

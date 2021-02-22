@@ -121,6 +121,12 @@ questions:
         type: string
         required: false
         group: "storageClass"
+      - variable: storageclass.reclaimpolicy
+        label: storageClass reclaim policy
+        default: "Delete"
+        type: string
+        required: false
+        group: "storageClass"
   - variable: deployCSIResizer
     default: true
     label: Should the csi-resizer container be deployed (Not supported on VSphere 6.7U3)
