@@ -82,6 +82,13 @@ questions:
     type: string
     required: true
     group: "vCenter"
+  - variable: kubelet.path
+    label: Kubelet path
+    description: "E.g. /var/lib/k0s/kubelet"
+    default: "/var/lib/kubelet"
+    type: string
+    required: true
+    group: "Kubelet"
   - variable: storageClass
     default: true
     label: Create matching storageClass
