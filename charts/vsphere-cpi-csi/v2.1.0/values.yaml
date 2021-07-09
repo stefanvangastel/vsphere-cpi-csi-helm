@@ -15,6 +15,9 @@ vcenter:
   # password: root
   # datacenter: DC1
 
+kubelet:
+  path: /var/lib/kubelet
+
 storageclass:
   name: vsphere-csi
   default: true
