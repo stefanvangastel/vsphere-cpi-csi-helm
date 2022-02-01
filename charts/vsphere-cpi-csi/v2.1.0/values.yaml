@@ -24,3 +24,4 @@ storageclass:
   fstype: ext4
   # storagepolicyname: my-storage-policy
   # datastoreurl: ds:///vmfs/volumes/vsan:528c27f173c2088e-2126e911985dc3aa/
+  # reclaimpolicy: Delete
