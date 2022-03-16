@@ -2,8 +2,30 @@ apiVersion: v1
 entries:
   vsphere-cpi-csi:
   - apiVersion: v1
+    appVersion: 2.3.0
+    created: "2022-03-16T11:36:15.359181+01:00"
+    description: vSphere CPI manager and CSI drivers
+    digest: ae3b9c863f9bd76176ebc4ccb7f573ae705a414328ed694ed2e9a38dd53dc971
+    icon: file://../vsphere_7.png
+    keywords:
+    - vsphere
+    - vmware
+    - esxi
+    - cpi
+    - csi
+    - storage
+    maintainers:
+    - email: stefanvangastel@gmail.com
+      name: Stefan van Gastel
+    - email: thouweling@gmail.com
+      name: Tom Houweling
+    name: vsphere-cpi-csi
+    urls:
+    - https://stefanvangastel.github.io/vsphere-cpi-csi-helm/packages/vsphere-cpi-csi-2.3.0.tgz
+    version: 2.3.0
+  - apiVersion: v1
     appVersion: 2.2.0
-    created: "2022-03-15T12:03:04.825364+01:00"
+    created: "2022-03-16T11:36:15.358445+01:00"
     description: vSphere CPI manager and CSI drivers
     digest: 8930a7e03d19efe5b2e8f1e70fd270db0fde971799932cd5fc1b677fa2ed8433
     icon: file://../vsphere_7.png
@@ -23,4 +45,4 @@ entries:
     urls:
     - https://stefanvangastel.github.io/vsphere-cpi-csi-helm/packages/vsphere-cpi-csi-2.2.0.tgz
     version: 2.2.0
-generated: "2022-03-15T12:03:04.822702+01:00"
+generated: "2022-03-16T11:36:15.356816+01:00"
